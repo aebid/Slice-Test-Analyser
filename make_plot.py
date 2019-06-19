@@ -1,6 +1,7 @@
 import os
 import ROOT
 ROOT.gROOT.SetBatch(1)
+ROOT.gStyle.SetOptFit(1011)
 
 
 def plot1Dhist(name, title, event, size, xlabel, ylabel, cut, plotdir):
