@@ -41,5 +41,5 @@ for i in range(2):
     for k in range(1, 9):
       plot1Dhist("rechit_prop_dX_GE11[%d]"%i, "dx_layer%d_chamber%d_roll%d"%(i,j,k), event, [100, -40, 40], "x(cm)", "", "chamber_GE11[%d] == %d && roll_GE11[%d] == %d"%(i, j, i, k), "dx_localx_LCR")
   for k in range(1, 9):
-    plod1Dhist("rechit_prop_dX_GE11[{}]".format(i), "Local_res_layer{}_roll{}".format(i,k), event, [100, -4, 4], "x(cm)", "", "roll_GE11[{}]".format(k), "dx_localx_LR")
+    plot1Dhist("rechit_prop_dX_GE11[{}]".format(i), "Local_res_layer{}_roll{}".format(i,k), event, [100, -4, 4], "x(cm)", "", "roll_GE11[{}]".format(k), "dx_localx_LR")
 #############################################################################################################
