@@ -1,5 +1,5 @@
 import ROOT, os
-from make_plot import plot1Dhist, plot1Dfit, plot2Dhist
+from make_plot import plot1Dhist, plot1Dfit, plot2Dhist, plot2Ddensity
 
 f = ROOT.TFile("GEM_test.root")
 
@@ -9,12 +9,11 @@ if os.path.exists("plots/") == False:
   os.mkdir("plots/")
 
 #############################################################################################################
-plot1Dhist("rechit_prop_dX_GE11", "Local_x_residual_dx", event, [100, -40, 40], "x(cm)", "", "", "residuals")
-plot1Dhist("rechit_localx_GE11 - prop_localx_GE11", "Local_x_residual", event, [100, -40, 40], "x(cm)", "", "", "residuals")
+plot1Dhist("rechit_prop_dX_GE11", "Local_x_residual_dx", event, [100, -4, 4], "x(cm)", "", "", "residuals")
+plot1Dhist("rechit_localx_GE11 - prop_localx_GE11", "Local_x_residual", event, [100, -4, 4], "x(cm)", "", "", "residuals")
 plot1Dhist("rechit_localx_GE11 + prop_localx_GE11", "Local_x_residual_add", event, [100, -4, 4], "x(cm)", "", "", "residuals")
-plot1Dhist("rechit_phi_GE11 -  prop_phi_GE11", "Global_phi_residual", event, [100, -4, 4], "phi", "", "", "residuals")
+plot1Dhist("rechit_phi_GE11 -  prop_phi_GE11", "Global_phi_residual", event, [100, -.04, .04], "phi", "", "", "residuals")
 #############################################################################################################
-
 
 
 #############################################################################################################
@@ -25,6 +24,10 @@ plot2Dhist("prop_phi_GE11:rechit_phi_GE11", "prop_rec_phi_global", event, [100, 
 plot2Dhist("prop_localx_GE11:rechit_localx_GE11", "prop_rec_local", event, [100, -30, 30, 100, -30, 30], "", "", "", "prop_rec_local_density")
 #############################################################################################################
 
+
+#############################################################################################################
+plot2Ddensity("rechit_prop_dX_GE11:prop_localy_GE11:prop_localx_GE11", "prop_prop_res", event, [50, -30, 30, 50, -15, 15], "", "", "abs(rechit_prop_dX_GE11) < 10", "res_density")
+############################################################################################################
 
 
 #############################################################################################################
@@ -42,4 +45,5 @@ for i in range(2):
       plot1Dhist("rechit_prop_dX_GE11[%d]"%i, "dx_layer%d_chamber%d_roll%d"%(i,j,k), event, [100, -40, 40], "x(cm)", "", "chamber_GE11[%d] == %d && roll_GE11[%d] == %d"%(i, j, i, k), "dx_localx_LCR")
   for k in range(1, 9):
     plot1Dhist("rechit_prop_dX_GE11[{}]".format(i), "Local_res_layer{}_roll{}".format(i,k), event, [100, -4, 4], "x(cm)", "", "roll_GE11[{}] == {}".format(i,k), "dx_localx_LR")
+    plot1Dhist("rechit_localx_GE11[{}] - prop_localx_center_GE11[{}]".format(i,i), "Local_res_center_layer{}_roll{}".format(i,k), event, [100, -4, 4], "x(cm)", "", "roll_GE11[{}] == {}".format(i,k), "dx_localx_LR_center")
 #############################################################################################################

@@ -45,3 +45,15 @@ def plot2Dhist(name, title, event, size, xlabel, ylabel, cut, plotdir):
 	c1.SaveAs("plots/"+plotdir+"/"+title+".png")
 	return hist
 
+def plot2Ddensity(name, title, event, size, xlabel, ylabel, cut, plotdir):
+	if os.path.exists("plots/"+plotdir) == False:
+		os.mkdir("plots/"+plotdir)
+	c1 = ROOT.TCanvas("", "", 800, 800)
+	prof = ROOT.TProfile2D(name, title, size[0], size[1], size[2], size[3], size[4], size[5])
+	prof.GetXaxis().SetTitle(xlabel)
+	prof.GetYaxis().SetTitle(ylabel)
+	prof.Sumw2()
+	event.Project(name, name, cut)
+	prof.Draw("colz")
+	c1.SaveAs("plots/"+plotdir+"/"+title+".png")
+	return prof
