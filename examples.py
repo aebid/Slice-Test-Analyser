@@ -1,7 +1,7 @@
 import ROOT, os
 from make_plot import *
 
-f = ROOT.TFile("out_run341343_rdphiFIX.root")
+f = ROOT.TFile("out_run341343_fixedRdPhi_may6.root")
 
 event = f.Get("analyser/MuonData")
 
@@ -70,6 +70,10 @@ if os.path.exists("plots") == False:
 #Example of 1D hist#
 #plot1Dhist("branch", "Title of plot", event, [xbins, xlow, xhigh], "xaxis title", "yaxis title", "cuts1 && cuts2", "subdir", Save?, Logscale Y?)#
 plot1Dhist("muon_pt", "Muon pt", event, [200, 0, 200], "muon pt [GeV]", "Entries", "", "pt", True, False)
+
+#Example of 1D efficiency#
+#plot1Defficiency("branch", "Title of plot", event, [xbins, xlow, xhigh], "xaxis title", "yaxis title", "total cut", "passed cut", "subdir", Save?)#
+plot1Defficiency("prop_location[2]", "Chamber Efficiency", event, [37, 0, 37], "Chamber", "Eff", "has_prop_CSC == 1 && prop_roll_GE11 < 10 && hasME11", "has_rechit_CSC_GE11 == 1 && abs(RdPhi_CSC_GE11) < 5 && has_prop_CSC == 1 && prop_roll_GE11 < 10 && hasME11", "makeEffi", True)
 
 #Example of 2D hist / chamber&region#
 #plot2Dhist("ybranch:xbranch", "Title of plot", event, [xbins, xlow, xhigh, ybins, ylow, yhigh], "x title", "y title", "cuts1 && cuts2", "subdir", Save?)

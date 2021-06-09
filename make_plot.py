@@ -116,31 +116,21 @@ def plot2Dratio(name, title, event, size, xlabel, ylabel, cut, plotdir, save):
         return hist3
 
 
-def plot1Defficiency(name, title, event, size, xlabel, ylabel, cut, plotdir, save):
+def plot1Defficiency(name, title, event, size, xlabel, ylabel, tot_cut, pas_cut, plotdir, save):
 	if os.path.exists("plots/"+plotdir) == False:
 		os.mkdir("plots/"+plotdir)
-	c1 = ROOT.TCanvas("", "", 1200, 800)
 	hist = ROOT.TEfficiency("eff", "{title};#eta partition;#epsilon".format(title = title), size[0], size[1], size[2])
-	num = 0
-	den = 0
-	for i in event:
-		eta = i.prop_roll_GE11
-		if i.has_prop_GE11 == 1 and i.prop_chamber_GE11%2 == 0 and i.prop_roll_GE11 < 10 and i.region_mismatch == 1 and i.hasME11 == 1:
-			if i.has_rechit_GE11 == 1 and i.RdPhi_CSC_GE11 < 5:
-				num += 1
-				den += 1
-				hist.Fill(True, eta)
-			else:
-				den += 1
-				hist.Fill(False, eta)
-
+        tot_hist = plot1Dhist(name, title, event, size, xlabel, ylabel, tot_cut, plotdir, False, False)
+        pas_hist = plot1Dhist(name, title, event, size, xlabel, ylabel, pas_cut, plotdir, False, False)
+        hist.SetPassedHistogram(pas_hist, "F")
+        hist.SetTotalHistogram(tot_hist, "F")
+        c1 = ROOT.TCanvas("", "", 1200, 800)
 	hist.Draw()
-	legend = ROOT.TLegend()
-	legend.AddEntry(hist, "{num} passed, {den} total".format(num = num, den = den))
-	legend.Draw("same")
         if save:
 		c1.SaveAs("plots/"+plotdir+"/"+title+".png")
 	return hist
+
+
 
 def plotratio(name, title, event, size, xlabel, ylabel, cut, plotdir, save):
         if os.path.exists("plots/"+plotdir) == False:
